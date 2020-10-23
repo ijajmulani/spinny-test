@@ -1,6 +1,5 @@
 .card-container {
-  width: 90%;
-  max-width: 1240px;
+  width: 100%;
   margin: 0 auto;
   
   display: grid;
@@ -12,13 +11,36 @@
 
 
 @media only screen and (min-width: 500px) {
-  .band {
+  .card-container {
     grid-template-columns: 1fr 1fr;
   }  
 }
 
-@media only screen and (min-width: 850px) {
-  .band {
+@media only screen and (min-width: 600px) {
+  .card-container {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+}
+
+@media only screen and (min-width: 800px) {
+  .card-container {
     grid-template-columns: 1fr 1fr 1fr 1fr;
   }
+}
+
+@media only screen and (min-width: 1000px) {
+  .card-container {
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  }
+}
+
+.load-more-btn {
+  outline: none;
+  border: 1px solid #ccc;
+  background-color: #021737;
+  padding: 10px 25px;
+  color: #fff;
+  margin: 20px auto;
+  display: block;
+  cursor: pointer;
 }

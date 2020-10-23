@@ -1,24 +1,37 @@
 import React from 'react';
 import ListItem from '../ListItem/ListItem';
+import Loader from '../Loader/Loader';
+import NotFound from '../NotFound/NotFound';
+import './Lists.css';
+
 
 export default class Lists extends React.Component {
-  render() {
-    if (this.props.loading) {
-      return (
-        <div>Fetching data</div>
-      );
-    }
+  
+  onLoadMoreClick = (e) => {
+    this.props.onLoadMoreEvent();
+  }
 
-    if (this.props.data && this.props.data.length > 0) {
-      return (
-        this.props.data.map((item) => (
-          <ListItem id={item.mal_id} data={item} />
-        ))
-      )
-    } else {
-        return (
-          <div>No Result Found</div>
-        )
-    }
+  render() {
+    const {loading, data, isEnd} = this.props;
+    return (
+      <React.Fragment>
+        {data && data.length ? (
+          <div>
+            <div className='card-container'>
+              {data.map((item) => (
+                <ListItem key={item.mal_id} data={item} />
+              ))}
+            </div>
+            {isEnd || loading ? null : (<button className="load-more-btn" onClick={this.onLoadMoreClick}>Load More</button>) }
+          </div>
+
+        )  : null}
+        {loading ? <Loader /> : null}
+        {data && data.length === 0 && !loading ? <NotFound /> : null}
+      </React.Fragment>
+    );
+
+
+
   }
 }

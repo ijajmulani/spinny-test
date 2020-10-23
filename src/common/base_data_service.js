@@ -12,17 +12,9 @@ export default class BaseDataService {
     responsePromise.then(response => {
       return response.json()
     }).then(responseJson => {
-      if (responseJson && responseJson.results && onSuccess) {
-        onSuccess({ results: responseJson.results, error: responseJson.error });
-      } else if (onError) {
-        if (!responseJson) {
-          onError({ results: null, error: 'No response received.' });
-        } else if (!responseJson.results) {
-          onError({ results: null, error: 'No response received.' });
-        }
-      }
+      onSuccess(responseJson);
     }).catch(exception => {
-      onError({ results: null, error: exception });
+      onError({ error: exception });
     });
   }
 }
