@@ -12,7 +12,7 @@ export default class Lists extends React.Component {
   }
 
   render() {
-    const {loading, data, isEnd} = this.props;
+    const {loading, data, isEnd, displayNotFound} = this.props;
     return (
       <React.Fragment>
         {data && data.length ? (
@@ -27,7 +27,7 @@ export default class Lists extends React.Component {
 
         )  : null}
         {loading ? <Loader /> : null}
-        {data && data.length === 0 && !loading ? <NotFound /> : null}
+        {data && data.length === 0 && displayNotFound && !loading ? <NotFound /> : null}
       </React.Fragment>
     );
 

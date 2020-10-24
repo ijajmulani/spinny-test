@@ -8,26 +8,41 @@ class App extends React.Component {
   animeCommunication;
   limit = 20;
   pageNumber = 1;
-  searchQuery = "";
 
   constructor(props) {
     super(props);
     this.animeCommunication = new AnimeCommunication();
+    const searchParams = new URLSearchParams(window.location.search);
+    const query = searchParams.get("query");
+
     this.state = {
       results: [], 
       loading : false,
       isEnd: false,
+      searchQuery: query.trim(),
     };
+  }
+
+  componentDidMount() {
+    if (this.state.searchQuery) {
+      this.onSearchEvent(this.state.searchQuery);
+    }
   }
 
   onSearchEvent = (query) => {
     this.pageNumber = 1;
-    this.searchQuery = query.trim();
+    const searchQuery = query.trim();
+    if (searchQuery.length < 3) {
+      alert("Error: Requires atleast 3 or more characters");
+      return
+    }
+
     this.setState({
       loading: true,
       results: [],
+      searchQuery: searchQuery,
     });
-    this.fetchData(this.searchQuery);
+    this.fetchData(searchQuery);
   } 
 
   onLoadMoreEvent = () => {
@@ -35,7 +50,7 @@ class App extends React.Component {
       loading: true,
     });
     this.pageNumber++;
-    this.fetchData(this.searchQuery);
+    this.fetchData(this.state.searchQuery);
   }
 
   fetchData = (query) => {
@@ -56,12 +71,12 @@ class App extends React.Component {
   }
 
   render() {
-    const {loading, results, isEnd}  = this.state;
+    const {loading, results, isEnd, searchQuery}  = this.state;
     return (
       <React.Fragment>
-        <Header onSearchEvent={this.onSearchEvent} />
+        <Header onSearchEvent={this.onSearchEvent} searchQuery={searchQuery} />
         <div className='container'>
-          <List data={results} loading={loading} isEnd={isEnd} onLoadMoreEvent={this.onLoadMoreEvent} />
+          <List data={results} loading={loading} isEnd={isEnd} onLoadMoreEvent={this.onLoadMoreEvent} displayNotFound={this.state.searchQuery !== ""} />
         </div>
       </React.Fragment>
     );
