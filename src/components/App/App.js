@@ -19,7 +19,7 @@ class App extends React.Component {
       results: [], 
       loading : false,
       isEnd: false,
-      searchQuery: query.trim(),
+      searchQuery: query ? query.trim() : '',
     };
   }
 
